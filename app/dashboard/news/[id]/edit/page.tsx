@@ -25,10 +25,7 @@ export default function EditNewsPage() {
   })
 
   useEffect(() => {
-    fetchNews()
-  }, [])
-
-  const fetchNews = async () => {
+    const fetchNews = async () => {
     try {
       const response = await axios.get(`/api/news/${params.id}`)
       const news = response.data
@@ -48,7 +45,9 @@ export default function EditNewsPage() {
     } finally {
       setFetching(false)
     }
-  }
+    }
+    fetchNews()
+  }, [])
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault()

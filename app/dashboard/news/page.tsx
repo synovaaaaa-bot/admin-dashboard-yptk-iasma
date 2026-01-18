@@ -1,6 +1,6 @@
 'use client'
 
-import { useEffect, useState } from 'react'
+import { useEffect, useState, useCallback } from 'react'
 import Link from 'next/link'
 import { FiPlus, FiEdit, FiTrash2, FiEye } from 'react-icons/fi'
 import axios from 'axios'
@@ -24,11 +24,7 @@ export default function NewsPage() {
   const [page, setPage] = useState(1)
   const [totalPages, setTotalPages] = useState(1)
 
-  useEffect(() => {
-    fetchNews()
-  }, [statusFilter, page])
-
-  const fetchNews = async () => {
+  const fetchNews = useCallback(async () => {
     try {
       setLoading(true)
       const params = new URLSearchParams({
@@ -46,7 +42,11 @@ export default function NewsPage() {
     } finally {
       setLoading(false)
     }
-  }
+  }, [statusFilter, page])
+
+  useEffect(() => {
+    fetchNews()
+  }, [fetchNews])
 
   const handleDelete = async (id: string) => {
     if (!confirm('Apakah Anda yakin ingin menghapus berita ini?')) return
