@@ -74,7 +74,7 @@ jobs:
     name: Auto Merge to Main
     needs: quality-check
     runs-on: ubuntu-latest
-    if: github.event.pull_request.head.ref == 'fix/eslint-warnings-and-security-updates' || startsWith(github.event.pull_request.head.ref, 'feature/') || startsWith(github.event.pull_request.head.ref, 'fix/')
+    if: startsWith(github.event.pull_request.head.ref, 'feature/') || startsWith(github.event.pull_request.head.ref, 'fix/')
     
     permissions:
       contents: write
