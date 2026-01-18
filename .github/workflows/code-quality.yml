@@ -126,12 +126,7 @@ jobs:
         run: npx prisma format --check
 
       - name: Prisma Report
-        if: always()
+        if: failure()
         run: |
-          echo "🗄️ Prisma Validation Complete"
-          if [ $? -eq 0 ]; then
-            echo "✅ Schema is valid"
-          else
-            echo "❌ Schema validation failed"
-            exit 1
-          fi
+          echo "❌ Schema validation failed"
+          exit 1
