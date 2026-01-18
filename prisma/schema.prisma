@@ -1,0 +1,137 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model User {
+  id        String   @id @default(cuid())
+  name      String
+  email     String   @unique
+  password  String
+  role      Role     @default(EDITOR)
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  news      News[]
+  programs  Program[]
+}
+
+enum Role {
+  SUPER_ADMIN
+  EDITOR
+  FINANCE
+  VIEWER
+}
+
+model News {
+  id          String      @id @default(cuid())
+  title       String
+  slug        String      @unique
+  content     String      @db.Text
+  excerpt     String?
+  featuredImage String?
+  category    String?
+  tags        String[]
+  status      NewsStatus  @default(DRAFT)
+  publishedAt DateTime?
+  createdAt   DateTime    @default(now())
+  updatedAt   DateTime    @updatedAt
+  authorId    String
+  author      User        @relation(fields: [authorId], references: [id])
+}
+
+enum NewsStatus {
+  DRAFT
+  PUBLISHED
+  ARCHIVED
+}
+
+model Program {
+  id          String        @id @default(cuid())
+  title       String
+  slug        String        @unique
+  description String        @db.Text
+  featuredImage String?
+  startDate   DateTime?
+  endDate     DateTime?
+  location    String?
+  maxParticipants Int?
+  status      ProgramStatus @default(UPCOMING)
+  createdAt   DateTime      @default(now())
+  updatedAt   DateTime      @updatedAt
+  authorId    String
+  author      User          @relation(fields: [authorId], references: [id])
+
+  registrations Registration[]
+}
+
+enum ProgramStatus {
+  UPCOMING
+  RUNNING
+  COMPLETED
+}
+
+model Donor {
+  id        String     @id @default(cuid())
+  name      String
+  email     String?
+  phone     String?
+  address   String?
+  createdAt DateTime   @default(now())
+  updatedAt DateTime   @updatedAt
+
+  donations Donation[]
+}
+
+model Donation {
+  id            String         @id @default(cuid())
+  amount        Float
+  paymentMethod String
+  status        DonationStatus @default(PENDING)
+  notes         String?
+  donatedAt     DateTime       @default(now())
+  verifiedAt    DateTime?
+  createdAt     DateTime       @default(now())
+  updatedAt     DateTime       @updatedAt
+  donorId       String
+  donor         Donor          @relation(fields: [donorId], references: [id])
+}
+
+enum DonationStatus {
+  PENDING
+  VERIFIED
+  REJECTED
+}
+
+model Registration {
+  id          String             @id @default(cuid())
+  name        String
+  email       String
+  phone       String?
+  status      RegistrationStatus @default(PENDING)
+  createdAt   DateTime           @default(now())
+  updatedAt   DateTime           @updatedAt
+  programId   String
+  program     Program            @relation(fields: [programId], references: [id])
+}
+
+enum RegistrationStatus {
+  PENDING
+  CONFIRMED
+  REJECTED
+}
+
+model Settings {
+  id        String   @id @default(cuid())
+  key       String   @unique
+  value     String   @db.Text
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}
