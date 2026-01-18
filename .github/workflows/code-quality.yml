@@ -92,15 +92,10 @@ jobs:
           NEXTAUTH_SECRET: "test-secret-for-ci"
 
       - name: Build Report
-        if: always()
+        if: failure()
         run: |
-          echo "📦 Build Check Complete"
-          if [ $? -eq 0 ]; then
-            echo "✅ Build successful"
-          else
-            echo "❌ Build failed"
-            exit 1
-          fi
+          echo "❌ Build failed"
+          exit 1
 
   prisma-validate:
     name: Prisma Schema Validation
