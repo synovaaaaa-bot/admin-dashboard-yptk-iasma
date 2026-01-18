@@ -25,11 +25,7 @@ export default function EditProgramPage() {
   })
 
   useEffect(() => {
-    fetchProgram()
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [])
-
-  const fetchProgram = async () => {
+    const fetchProgram = async () => {
     try {
       const response = await axios.get(`/api/programs/${params.id}`)
       const program = response.data
@@ -49,7 +45,9 @@ export default function EditProgramPage() {
     } finally {
       setFetching(false)
     }
-  }
+    }
+    fetchProgram()
+  }, [])
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault()

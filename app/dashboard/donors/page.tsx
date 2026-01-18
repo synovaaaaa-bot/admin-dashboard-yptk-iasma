@@ -1,6 +1,6 @@
 'use client'
 
-import { useEffect, useState } from 'react'
+import { useEffect, useState, useCallback } from 'react'
 import Link from 'next/link'
 import { FiPlus, FiEdit, FiTrash2, FiEye } from 'react-icons/fi'
 import axios from 'axios'
@@ -26,12 +26,7 @@ export default function DonorsPage() {
   const [page, setPage] = useState(1)
   const [totalPages, setTotalPages] = useState(1)
 
-  useEffect(() => {
-    fetchDonors()
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [page])
-
-  const fetchDonors = async () => {
+  const fetchDonors = useCallback(async () => {
     try {
       setLoading(true)
       const params = new URLSearchParams({
@@ -46,7 +41,11 @@ export default function DonorsPage() {
     } finally {
       setLoading(false)
     }
-  }
+  }, [page])
+
+  useEffect(() => {
+    fetchDonors()
+  }, [fetchDonors])
 
   const handleDelete = async (id: string) => {
     if (!confirm('Apakah Anda yakin ingin menghapus donatur ini?')) return

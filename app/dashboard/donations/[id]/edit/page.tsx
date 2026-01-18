@@ -17,11 +17,7 @@ export default function EditDonationPage() {
   })
 
   useEffect(() => {
-    fetchDonation()
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [])
-
-  const fetchDonation = async () => {
+    const fetchDonation = async () => {
     try {
       const response = await axios.get(`/api/donations/${params.id}`)
       const donation = response.data
@@ -37,7 +33,9 @@ export default function EditDonationPage() {
     } finally {
       setFetching(false)
     }
-  }
+    }
+    fetchDonation()
+  }, [])
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault()

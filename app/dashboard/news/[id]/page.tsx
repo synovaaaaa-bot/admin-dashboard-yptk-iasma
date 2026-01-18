@@ -32,11 +32,7 @@ export default function NewsDetailPage() {
   const [loading, setLoading] = useState(true)
 
   useEffect(() => {
-    fetchNews()
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [])
-
-  const fetchNews = async () => {
+    const fetchNews = async () => {
     try {
       const response = await axios.get(`/api/news/${params.id}`)
       setNews(response.data)
@@ -47,7 +43,9 @@ export default function NewsDetailPage() {
     } finally {
       setLoading(false)
     }
-  }
+    }
+    fetchNews()
+  }, [])
 
   const handleDelete = async () => {
     if (!confirm('Apakah Anda yakin ingin menghapus berita ini?')) return

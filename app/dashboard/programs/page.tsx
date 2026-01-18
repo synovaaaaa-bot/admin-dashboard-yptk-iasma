@@ -1,6 +1,6 @@
 'use client'
 
-import { useEffect, useState } from 'react'
+import { useEffect, useState, useCallback } from 'react'
 import Link from 'next/link'
 import { FiPlus, FiEdit, FiTrash2, FiEye } from 'react-icons/fi'
 import axios from 'axios'
@@ -28,12 +28,7 @@ export default function ProgramsPage() {
   const [page, setPage] = useState(1)
   const [totalPages, setTotalPages] = useState(1)
 
-  useEffect(() => {
-    fetchPrograms()
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [statusFilter, page])
-
-  const fetchPrograms = async () => {
+  const fetchPrograms = useCallback(async () => {
     try {
       setLoading(true)
       const params = new URLSearchParams({
@@ -51,7 +46,11 @@ export default function ProgramsPage() {
     } finally {
       setLoading(false)
     }
-  }
+  }, [statusFilter, page])
+
+  useEffect(() => {
+    fetchPrograms()
+  }, [fetchPrograms])
 
   const handleDelete = async (id: string) => {
     if (!confirm('Apakah Anda yakin ingin menghapus program ini?')) return

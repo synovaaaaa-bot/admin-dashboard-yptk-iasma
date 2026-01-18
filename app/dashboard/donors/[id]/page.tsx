@@ -29,11 +29,7 @@ export default function DonorDetailPage() {
   const [loading, setLoading] = useState(true)
 
   useEffect(() => {
-    fetchDonor()
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [])
-
-  const fetchDonor = async () => {
+    const fetchDonor = async () => {
     try {
       const response = await axios.get(`/api/donors/${params.id}`)
       setDonor(response.data)
@@ -44,7 +40,9 @@ export default function DonorDetailPage() {
     } finally {
       setLoading(false)
     }
-  }
+    }
+    fetchDonor()
+  }, [])
 
   const formatCurrency = (amount: number) => {
     return new Intl.NumberFormat('id-ID', {
