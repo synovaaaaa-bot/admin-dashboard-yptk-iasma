@@ -26,6 +26,7 @@ export default function EditNewsPage() {
 
   useEffect(() => {
     fetchNews()
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [])
 
   const fetchNews = async () => {

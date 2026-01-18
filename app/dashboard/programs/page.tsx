@@ -30,6 +30,7 @@ export default function ProgramsPage() {
 
   useEffect(() => {
     fetchPrograms()
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [statusFilter, page])
 
   const fetchPrograms = async () => {

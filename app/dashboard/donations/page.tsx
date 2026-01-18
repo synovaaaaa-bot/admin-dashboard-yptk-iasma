@@ -26,6 +26,7 @@ export default function DonationsPage() {
 
   useEffect(() => {
     fetchDonations()
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [statusFilter, page])
 
   const fetchDonations = async () => {

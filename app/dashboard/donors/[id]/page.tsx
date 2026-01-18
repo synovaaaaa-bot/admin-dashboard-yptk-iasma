@@ -30,6 +30,7 @@ export default function DonorDetailPage() {
 
   useEffect(() => {
     fetchDonor()
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [])
 
   const fetchDonor = async () => {

@@ -26,6 +26,7 @@ export default function NewsPage() {
 
   useEffect(() => {
     fetchNews()
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [statusFilter, page])
 
   const fetchNews = async () => {
