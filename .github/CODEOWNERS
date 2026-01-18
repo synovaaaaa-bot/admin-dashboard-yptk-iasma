@@ -1,0 +1,14 @@
+# Code owners untuk YPT Kiasma Admin Dashboard
+
+# Default owner untuk semua files
+* @synovaaaaa-bot
+
+# Specific owners untuk critical files
+/prisma/ @synovaaaaa-bot
+/app/api/ @synovaaaaa-bot
+/.github/ @synovaaaaa-bot
+/lib/auth.ts @synovaaaaa-bot
+/middleware.ts @synovaaaaa-bot
+
+# Documentation
+*.md @synovaaaaa-bot
