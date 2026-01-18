@@ -47,7 +47,7 @@ export default function EditProgramPage() {
     }
     }
     fetchProgram()
-  }, [])
+  }, [params.id])
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault()

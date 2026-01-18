@@ -45,7 +45,7 @@ export default function NewsDetailPage() {
     }
     }
     fetchNews()
-  }, [])
+  }, [params.id, router])
 
   const handleDelete = async () => {
     if (!confirm('Apakah Anda yakin ingin menghapus berita ini?')) return

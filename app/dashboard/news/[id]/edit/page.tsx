@@ -47,7 +47,7 @@ export default function EditNewsPage() {
     }
     }
     fetchNews()
-  }, [])
+  }, [params.id])
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault()
