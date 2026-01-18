@@ -28,15 +28,10 @@ jobs:
         run: npm run lint
 
       - name: ESLint Report
-        if: always()
+        if: failure()
         run: |
-          echo "📝 ESLint Check Complete"
-          if [ $? -eq 0 ]; then
-            echo "✅ No linting errors found"
-          else
-            echo "❌ Linting errors detected"
-            exit 1
-          fi
+          echo "❌ Linting errors detected"
+          exit 1
 
   typescript:
     name: TypeScript Check
