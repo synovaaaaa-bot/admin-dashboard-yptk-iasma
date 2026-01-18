@@ -35,7 +35,7 @@ export default function EditDonationPage() {
     }
     }
     fetchDonation()
-  }, [])
+  }, [params.id])
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault()

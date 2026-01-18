@@ -42,7 +42,7 @@ export default function DonorDetailPage() {
     }
     }
     fetchDonor()
-  }, [])
+  }, [params.id, router])
 
   const formatCurrency = (amount: number) => {
     return new Intl.NumberFormat('id-ID', {

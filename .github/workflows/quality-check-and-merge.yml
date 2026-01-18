@@ -1,0 +1,122 @@
+name: Quality Check & Auto Merge
+
+on:
+  pull_request:
+    branches: [main]
+    types: [opened, synchronize, reopened]
+
+jobs:
+  quality-check:
+    name: Code Quality & Security Check
+    runs-on: ubuntu-latest
+    
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '18'
+          cache: 'npm'
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Run ESLint
+        run: npm run lint
+        continue-on-error: false
+
+      - name: TypeScript Type Check
+        run: npx tsc --noEmit
+        continue-on-error: false
+
+      - name: Security Audit
+        run: npm audit --audit-level=moderate
+        continue-on-error: true
+
+      - name: Check for vulnerabilities
+        run: |
+          npm audit --json > audit.json
+          VULNERABILITIES=$(cat audit.json | jq '.metadata.vulnerabilities.total')
+          echo "Total vulnerabilities: $VULNERABILITIES"
+          if [ "$VULNERABILITIES" -gt 0 ]; then
+            echo "⚠️ Found $VULNERABILITIES vulnerabilities"
+            cat audit.json | jq '.vulnerabilities'
+          fi
+
+      - name: Build Test
+        run: npm run build
+        env:
+          DATABASE_URL: "postgresql://test:test@localhost:5432/test"
+          NEXTAUTH_URL: "http://localhost:3000"
+          NEXTAUTH_SECRET: "test-secret-for-build-only"
+
+      - name: Generate Prisma Client
+        run: npx prisma generate
+
+      - name: Check Prisma Schema
+        run: npx prisma validate
+
+      - name: Quality Check Summary
+        if: success()
+        run: |
+          echo "✅ All quality checks passed!"
+          echo "✅ ESLint: PASSED"
+          echo "✅ TypeScript: PASSED"
+          echo "✅ Security Audit: CHECKED"
+          echo "✅ Build: SUCCESS"
+          echo "✅ Prisma: VALIDATED"
+
+  auto-merge:
+    name: Auto Merge to Main
+    needs: quality-check
+    runs-on: ubuntu-latest
+    if: startsWith(github.event.pull_request.head.ref, 'feature/') || startsWith(github.event.pull_request.head.ref, 'fix/')
+    
+    permissions:
+      contents: write
+      pull-requests: write
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Auto-approve PR
+        uses: hmarr/auto-approve-action@v3
+        with:
+          github-token: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Auto-merge PR
+        uses: pascalgn/automerge-action@v0.16.2
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          MERGE_LABELS: ""
+          MERGE_METHOD: "squash"
+          MERGE_COMMIT_MESSAGE: "pull-request-title-and-description"
+          MERGE_FORKS: "false"
+          MERGE_RETRIES: "6"
+          MERGE_RETRY_SLEEP: "10000"
+          UPDATE_LABELS: ""
+          UPDATE_METHOD: "rebase"
+
+      - name: Merge Success Notification
+        if: success()
+        run: |
+          echo "🎉 PR successfully merged to main!"
+          echo "🚀 Vercel will auto-deploy the changes"
+
+  deploy-notification:
+    name: Deployment Ready
+    needs: auto-merge
+    runs-on: ubuntu-latest
+    if: success()
+    
+    steps:
+      - name: Notify Deployment
+        run: |
+          echo "📦 Deployment pipeline triggered"
+          echo "🔗 Check Vercel dashboard for deployment status"
+          echo "✅ All checks passed - safe to deploy!"
